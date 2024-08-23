@@ -19,7 +19,7 @@ export default function Home() {
         src={`/paintings/bobross_season_${props.season}_episode_${props.episode}.png`}
         alt={`Painting - Season ${props.season} Episode ${props.episode}`}
         width={250}
-        height={175}
+        height={180}
       />
     )
   }
@@ -37,8 +37,8 @@ export default function Home() {
     return (
       <div className={styles.row}>
         <div className={styles.grid}>
-          {props.images.map((image) => {
-            return <Painting season={image.season} episode={image.episode} />
+          {props.images.map((image, i) => {
+            return <Painting season={image.season} episode={image.episode} key={i} />
           })}
         </div>
       </div>
@@ -50,17 +50,18 @@ export default function Home() {
   }
 
   const PaintingSeason = (props: PaintingSeasonProps) => {
-    return [...Array(Math.ceil(episodesPerSeason[props.season] / 4))].map((_, i) => {
+    const NUM_PER_ROW = 4
+    return [...Array(Math.ceil(episodesPerSeason[props.season] / NUM_PER_ROW))].map((_, i) => {
       const imagesPerRow =
-        (i + 1) * 4 > episodesPerSeason[props.season]
-          ? 4 + (episodesPerSeason[props.season] - (i + 1) * 4)
-          : 4
+        (i + 1) * NUM_PER_ROW > episodesPerSeason[props.season]
+          ? NUM_PER_ROW + (episodesPerSeason[props.season] - (i + 1) * NUM_PER_ROW)
+          : NUM_PER_ROW
 
       const images = [...Array(imagesPerRow)].map((_, j) => {
-        return { season: props.season, episode: i * 4 + 1 + j }
+        return { season: props.season, episode: i * NUM_PER_ROW + 1 + j }
       })
 
-      return <PaintingRow images={images} />
+      return <PaintingRow images={images} key={i} />
     })
   }
 
@@ -70,7 +71,7 @@ export default function Home() {
 
   const Seasons = (props: SeasonsProps) => {
     return [...Array(props.seasons)].map((_, i) => {
-      return <PaintingSeason season={i + 1} />
+      return <PaintingSeason season={i + 1} key={i} />
     })
   }
 
