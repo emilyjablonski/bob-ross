@@ -35,13 +35,11 @@ export default function Home() {
 
   const PaintingRow = (props: PaintingRowProps) => {
     return (
-      <div className={styles.row}>
-        <div className={styles.grid}>
-          {props.images.map((image, i) => {
-            return <Painting season={image.season} episode={image.episode} key={i} />
-          })}
-        </div>
-      </div>
+      <>
+        {props.images.map((image, i) => {
+          return <Painting season={image.season} episode={image.episode} key={i} />
+        })}
+      </>
     )
   }
 
@@ -78,7 +76,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.center}>
-        <Seasons seasons={Object.keys(episodesPerSeason).length} />
+        <div className={styles.grid}>
+          <Seasons seasons={Object.keys(episodesPerSeason).length} />
+        </div>
       </div>
     </main>
   )
